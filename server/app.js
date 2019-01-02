@@ -22,6 +22,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function (req, res, next) {
+  console.log('Time:', Date.now());
+  next();
+});
+
 app.use("/data/swiper", data.swiper);
 app.use("/data/otherapp", data.otherapp);
 app.use("/data/spike", data.spike);
@@ -29,7 +34,8 @@ app.use("/data/more", data.more);
 app.use("/data/like", data.like);
 app.use("/data/feed", data.feed);
 app.get("/data/test", data.test);
-app.get("/data/test/download.png", (req, res)=>{
+// res.download https://stackoverflow.com/questions/50995471/why-is-express-res-download-method-causing-a-request-aborted-error
+app.get("/data/test/download.png", (req, res) => {
 	// if(pathUrl !== '/') {
 		res.download(path.join(__dirname, './public/images/like/like6.jpg'), 'like6.jpg', (err)=>{
 			if (err) {
@@ -42,6 +48,21 @@ app.get("/data/test/download.png", (req, res)=>{
 		// 	next();
 		// }
 });
+// 注：next('route') 仅在使用 app.METHOD() 或 router.METHOD() 函数装入的中间件函数中有效。
+app.get("/user/:id", (req, res, next) => {
+	if (req.params.id == 0) {
+		next('route');
+	} else {
+		next();
+	}
+}, (req, res, next) => {
+	res.send("specil");
+});
+
+app.get("/user/:id", (req, res, next) => {
+	res.send("method");
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
