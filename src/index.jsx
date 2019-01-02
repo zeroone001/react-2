@@ -9,7 +9,7 @@ import Feed from '../app/components/feed.jsx';
 ReactDOM.render(
 	<div>
 		<ZdmSearch />
-		<Swiper />
+		<Swiper source="http://localhost:3000/data/swiper" />
 		<Feed source="http://localhost:3000/data/feed" />
 	</div>,
 	document.querySelector("#myApp")

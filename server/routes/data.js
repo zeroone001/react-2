@@ -3,7 +3,7 @@ let express = require('express');
 let router = express.Router();
 let fs = require('fs');
 let path = require('path');
-let listModel = require('../mongoose.js');
+let Model = require('../mongoose.js');
 
 
 let dataBase = null;
@@ -59,12 +59,12 @@ let likeNames = [];
 let feedNames = [];
 
 readFileData().then(() => {
-	getFileName("./public/images/swiper", "swiper").then((files) => {
-		imgNames = files;
-	},() => {
-		console.log(err);
-		imgNames = false;
-	});
+	// getFileName("./public/images/swiper", "swiper").then((files) => {
+	// 	imgNames = files;
+	// },() => {
+	// 	console.log(err);
+	// 	imgNames = false;
+	// });
 
 	getFileName("./public/images/otherapp", "otherapp").then((files) => {
 		let obj = dataBase.otherapp;
@@ -123,15 +123,20 @@ exports.swiper = (req, res) => {
 		msg: "",
 		data: "",
 	}
-	if(imgNames) {
-		sendData.status = 1;
-		sendData.msg = "success";
-		sendData.data = imgNames;
-	}else {
-		sendData.msg = "error";
-	}
-	let json = JSON.stringify(sendData);
-  	res.send(callback + '(' + json + ')');
+
+	Model.swiperModel.find((err, data) => {
+		if (err) {
+			console.log(err);
+		} else {
+			console.log('data.js', data);
+			sendData.status = 1;
+			sendData.msg = "success";
+			sendData.data = data[0].imgUrls;
+			let json = JSON.stringify(sendData);
+  		res.send(callback + '(' + json + ')');
+		}
+
+	});
 };
 
 exports.otherapp = (req, res) => {
@@ -151,6 +156,7 @@ exports.otherapp = (req, res) => {
 	}else {
 		sendData.msg = "error";
 	}
+
 
 	let json = JSON.stringify(sendData);
   	res.send(callback + '(' + json + ')');
@@ -239,7 +245,7 @@ exports.feed = (req, res) => {
 	// } else {
 	// 	sendData.msg = "error";
 	// }
-	listModel.find((err, data) => {
+	Model.listModel.find((err, data) => {
 		console.log('sendData', data);
 		sendData.status = 1;
 		sendData.msg = 'success';

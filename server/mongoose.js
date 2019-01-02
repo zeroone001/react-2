@@ -18,6 +18,16 @@ var listData = new mongoose.Schema({
 	collection: "listData"
 });
 
-var listModel = mongoose.model('listData', listData, 'listData');
+var swiperImg = new mongoose.Schema({
+	imgUrls: [String]
+}, {
+	collection: "swiperImg"
+});
 
-module.exports = listModel;
+var listModel = mongoose.model('listData', listData, 'listData');
+var swiperModel = mongoose.model('swiperImg', swiperImg, 'swiperImg');
+
+module.exports = {
+	listModel,
+	swiperModel
+};

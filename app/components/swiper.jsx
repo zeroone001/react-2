@@ -6,17 +6,33 @@ let Swipe = require('../lib/swiper.min.js');
 var Swiper = React.createClass({
 	getInitialState: function() {
 		return {
-			imgUrls: ['https://tp-eimg.smzdm.com/201812/23/5c1f6bb447d515180.png','https://tp-eimg.smzdm.com/201812/21/5c1cbe574f77c932.png','https://tp-eimg.smzdm.com/201812/23/5c1f6acd583d7198.png']
+			imgUrls: []
 		}
 	},
 	componentDidMount: function() {
-		new Swipe ('.swiper-container', {
-					    loop: true,
-					    pagination: '.swiper-pagination',
-					    paginationClickable: true,
-					    autoplay : 3000,
-						  autoplayDisableOnInteraction : false,
+		jsonp(this.props.source, "", "callback", (data) => {
+			if(data.status) {
+				//如果组件渲染到了 DOM 中，isMounted() 返回 true。
+				//可以使用该方法保证 setState() 和 forceUpdate()
+				//在异步场景下的调用不会出错。
+				if(this.isMounted()) {
+					console.log('data::', data);
+					this.setState({
+						imgUrls: data.data,
+					})
+				  new Swipe ('.swiper-container', {
+				    loop: true,
+				    pagination: '.swiper-pagination',
+				    paginationClickable: true,
+				    autoplay : 3000,
+					  autoplayDisableOnInteraction : false,
 					});
+				}
+			}else {
+				alert(data.msg);
+			}
+		});
+
 	},
 	render:function (argument) {
 		var countId = 0;

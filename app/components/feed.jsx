@@ -13,6 +13,7 @@ var Feed = React.createClass({
 		jsonp(this.props.source, "", "callback", (data) => {
 			if(data.status) {
 				if(this.isMounted()) {
+					console.log('woshi', data);
 					this.setState({
 						listData: data.data
 					});
