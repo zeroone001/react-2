@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var router = express.Router();
 
 var data = require('./routes/data');
 
@@ -20,6 +21,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+// Express 中唯一内置的中间件函数是 express.static
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
@@ -62,6 +64,22 @@ app.get("/user/:id", (req, res, next) => {
 app.get("/user/:id", (req, res, next) => {
 	res.send("method");
 });
+
+//  路由器层中间件
+router.get('/users/:id', function (req, res, next) {
+  // if the user ID is 0, skip to the next router
+  if (req.params.id == 0) next('route');
+  // otherwise pass control to the next middleware function in this stack
+  else next(); //
+}, function (req, res, next) {
+  // render a regular page
+  res.send('regular');
+});
+router.get('/users/:id', function (req, res, next) {
+  console.log(req.params.id);
+  res.send('special');
+});
+app.use('/', router);
 
 
 // catch 404 and forward to error handler
