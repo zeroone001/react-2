@@ -1,0 +1,60 @@
+.header-white {
+    position: relative;
+    padding: 9px 10px;
+    height: 44px;
+    overflow: hidden;
+    background-color: #fff;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-bottom: 1px solid #dddddd;
+    .logo-img {
+        float: left;
+        margin-top: 1px;
+        height: 25px;
+        width: 27%;
+        img {
+            max-width: 100%;
+            max-height: 24px;
+            width: auto;
+            display: block;
+        }
+    }
+    .logo-search {
+        position: relative;
+        float: left;
+        margin-left: 7px;
+        margin-top: -2px;
+        height: 30px;
+        width: 58%;
+        -webkit-border-radius: 100px;
+        border-radius: 100px;
+        background-color: #f9f9f9;
+        input {
+            position: absolute;
+            top: 6px;
+            left: 30px;
+            width: 77%;
+            font-size: 14px;
+            color: #333333;
+            background-color: #f9f9f9;
+            border: 0;
+        }
+    }
+    .logo-download {
+        margin-top: 2px;
+        float: right;
+        border: 1px solid #f04848;
+        height: 20px;
+        -webkit-border-radius: 20px;
+        border-radius: 20px;
+        line-height: 20px;
+        padding-left: 6px;
+        padding-right: 6px;
+        font-size: 11px;
+        text-align: center;
+        a {
+            color: #f04848;
+        }
+    }
+}

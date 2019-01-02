@@ -27,7 +27,21 @@ app.use("/data/otherapp", data.otherapp);
 app.use("/data/spike", data.spike);
 app.use("/data/more", data.more);
 app.use("/data/like", data.like);
-
+app.use("/data/feed", data.feed);
+app.get("/data/test", data.test);
+app.get("/data/test/download.png", (req, res)=>{
+	// if(pathUrl !== '/') {
+		res.download(path.join(__dirname, './public/images/like/like6.jpg'), 'like6.jpg', (err)=>{
+			if (err) {
+				console.log('123', err);
+			} else {
+				console.log('OKOK');
+			}
+		});
+		// } else {
+		// 	next();
+		// }
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

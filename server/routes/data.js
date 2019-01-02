@@ -2,6 +2,7 @@
 let express = require('express');
 let router = express.Router();
 let fs = require('fs');
+let path = require('path');
 
 
 let dataBase = null;
@@ -25,26 +26,26 @@ let readFileData = () => {
 	});
 	return promise;
 }
-
+// fs.readFile("./public/images/like/like1.jpg", )
 
 /**
  * 通过Promise获取文件名
  * @param  {String} path      [文件的路径名]
  * @param  {String} fileClass [文件所属的种类,用于区别请求]
- * @return {null} [无] 
+ * @return {null} [无]
  */
 let getFileName = (path, fileClass) => {
 	let promise = new Promise((resolve, reject) => {
-		fs.readdir(path, (err, files) => {  
-	        if (err) {  
+		fs.readdir(path, (err, files) => {
+	        if (err) {
 	            reject("read fileName err!")
-	        } else {  
+	        } else {
 	        	files = files.map((file) => {
 	        		return "http://localhost:3000/images/" + fileClass + "/" + file;
 	        	});
 	        	resolve(files);
-	        }         
-	    }); 
+	        }
+	    });
 	});
 	return promise;
 }
@@ -54,6 +55,7 @@ let appNames = [];
 let spikeNames = [];
 let moreNames = [];
 let likeNames = [];
+let feedNames = [];
 
 readFileData().then(() => {
 	getFileName("./public/images/swiper", "swiper").then((files) => {
@@ -76,7 +78,7 @@ readFileData().then(() => {
 	getFileName("./public/images/spike", "spike").then((files) => {
 		let obj = dataBase.spike.store;
 		spikeNames = files.map((file, index) => {
-			obj[index].icon = file;		
+			obj[index].icon = file;
 			return obj[index];
 		});
 	},() => {
@@ -104,6 +106,8 @@ readFileData().then(() => {
 		console.log(err);
 	})
 
+	// feedNames
+	feedNames = dataBase.listData;
 
 }, (err) => {
 	console.log(err);
@@ -137,12 +141,12 @@ exports.otherapp = (req, res) => {
 		msg: "",
 		data: [],
 	}
-	
+
 	if(appNames) {
 		sendData.status = 1;
 		sendData.msg = "success";
 		sendData.data = appNames;
-		
+
 	}else {
 		sendData.msg = "error";
 	}
@@ -161,7 +165,7 @@ exports.spike = (req, res) => {
 		times: "",
 		more: "",
 	}
-	
+
 	if(spikeNames) {
 		sendData.status = 1;
 		sendData.msg = "success";
@@ -184,7 +188,7 @@ exports.more = (req, res) => {
 		msg: "",
 		data: [],
 	}
-	
+
 	if(moreNames) {
 		sendData.status = 1;
 		sendData.msg = "success";
@@ -205,7 +209,7 @@ exports.like = (req, res) => {
 		msg: "",
 		data: [],
 	}
-	
+
 	if(likeNames) {
 		sendData.status = 1;
 		sendData.msg = "success";
@@ -216,6 +220,62 @@ exports.like = (req, res) => {
 
 	let json = JSON.stringify(sendData);
   	res.send(callback + '(' + json + ')');
+};
+
+exports.feed = (req, res) => {
+	let reg = /\?callback=(.*)/;
+	let callback = reg.exec(req.url)[1];
+	console.log('req.url', req.url);
+	const sendData = {
+		status: 0,
+		msg: "",
+		data: []
+	}
+	if (feedNames) {
+		sendData.status = 1;
+		sendData.msg = 'success';
+		sendData.data = feedNames;
+	} else {
+		sendData.msg = "error";
+	}
+
+	let json = JSON.stringify(sendData);
+	res.send(callback + '(' + json + ')');
+
+};
+
+exports.test = (req, res, next) => {
+	// 获取上级目录
+	var dirPath = path.resolve(__dirname, '..');
+	// console.log('req', path.resolve(__dirname, '../../'));
+	// res.cookie('cart', {items: [312]});
+	var pathUrl = req.path;
+	console.log('pathUrl:', pathUrl);
+  // if(pathUrl !== '/') {
+		// 	res.download(path.join(dirPath, './public/images/like/like6.jpg'), 'like6.jpg', (err)=>{
+		// 		if (err) {
+		// 			console.log('123', err);
+		// 		} else {
+		// 			console.log('OKOK');
+		// 		}
+		// 	});
+		// } else {
+		// 	next();
+		// }
+	res.send(`<a href="./download.png">download</a>`);
+
+	//  start
+  /*var file = '/Users/smzdm/react/server/public/images/like/like6.jpg';
+
+  var filename = path.basename(file);
+  var mimetype = mime.lookup(file);
+
+  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  res.setHeader('Content-type', mimetype);
+
+  var filestream = fs.createReadStream(file);
+  filestream.pipe(res);*/
+  // end
 };
 
 

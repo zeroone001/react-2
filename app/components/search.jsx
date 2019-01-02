@@ -1,6 +1,6 @@
 
 require('./search.css');
-import React from 'react'; 
+import React from 'react';
 
 let Search = React.createClass({
 	getInitialState: function() {
@@ -8,8 +8,9 @@ let Search = React.createClass({
 			bg: "transparent",
 		}
 	},
+
 	componentDidMount: function() {
-		
+
 		window.onscroll = (event) => {
 			let realHeight = document.documentElement.scrollTop || document.body.scrollTop;
 			let optatic = 0.8 * (realHeight/142);
