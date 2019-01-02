@@ -3,6 +3,7 @@ let express = require('express');
 let router = express.Router();
 let fs = require('fs');
 let path = require('path');
+let listModel = require('../mongoose.js');
 
 
 let dataBase = null;
@@ -231,16 +232,21 @@ exports.feed = (req, res) => {
 		msg: "",
 		data: []
 	}
-	if (feedNames) {
+	// if (feedNames) {
+	// 	sendData.status = 1;
+	// 	sendData.msg = 'success';
+	// 	sendData.data = feedNames;
+	// } else {
+	// 	sendData.msg = "error";
+	// }
+	listModel.find((err, data) => {
+		console.log('sendData', data);
 		sendData.status = 1;
 		sendData.msg = 'success';
-		sendData.data = feedNames;
-	} else {
-		sendData.msg = "error";
-	}
-
-	let json = JSON.stringify(sendData);
-	res.send(callback + '(' + json + ')');
+		sendData.data = data;
+		let json = JSON.stringify(sendData);
+		res.send(callback + '(' + json + ')');
+	});
 
 };
 
