@@ -115,28 +115,27 @@ readFileData().then(() => {
 })
 
 
-exports.swiper = (req, res) => {
-	let reg = /\?callback=(.*)/;
-	let callback = reg.exec(req.url)[1];
-	const sendData = {
-		status: 0,
-		msg: "",
-		data: "",
+exports.swiper = async (req, res, next) => {
+	try {
+		let reg = /\?callback=(.*)/;
+		let callback = reg.exec(req.url)[1];
+		const sendData = {
+			status: 0,
+			msg: "",
+			data: "",
+		}
+		// 如果要实现更多更完整的Promise功能，可以在操作方法后加上exec()。但依然是阉割版。
+		var _data = await Model.swiperModel.find().exec();
+		console.log('_data', _data);
+		sendData.status = 1;
+		sendData.msg = "success";
+		sendData.data = _data[0].imgUrls;
+		let json = JSON.stringify(sendData);
+		res.send(callback + '(' + json + ')');
+	} catch (err) {
+		next(err);
 	}
 
-	Model.swiperModel.find((err, data) => {
-		if (err) {
-			console.log(err);
-		} else {
-			console.log('data.js', data);
-			sendData.status = 1;
-			sendData.msg = "success";
-			sendData.data = data[0].imgUrls;
-			let json = JSON.stringify(sendData);
-  		res.send(callback + '(' + json + ')');
-		}
-
-	});
 };
 
 exports.otherapp = (req, res) => {
