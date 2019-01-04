@@ -131,6 +131,19 @@ exports.swiper = async (req, res, next) => {
 		sendData.msg = "success";
 		sendData.data = _data[0].imgUrls;
 		let json = JSON.stringify(sendData);
+
+		// 创建document
+		Model.listModel.create({
+			time_sort: 1233,
+	    article_pic: "http://via.placeholder.com/105x105",
+	    article_title: "这是一个新的",
+	    article_price: "119元包邮（169，用券）",
+	    article_mall: "天猫精选天猫精选",
+	    article_format_date: "2016-12-09"
+		}, (err, data) => {
+			if (err) console.log('报错了');
+		});
+
 		res.send(callback + '(' + json + ')');
 	} catch (err) {
 		next(err);

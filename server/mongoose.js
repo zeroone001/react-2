@@ -24,6 +24,8 @@ var swiperImg = new mongoose.Schema({
 	collection: "swiperImg"
 });
 
+
+
 var listModel = mongoose.model('listData', listData, 'listData');
 var swiperModel = mongoose.model('swiperImg', swiperImg, 'swiperImg');
 
