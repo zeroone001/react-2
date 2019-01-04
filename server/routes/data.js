@@ -133,15 +133,37 @@ exports.swiper = async (req, res, next) => {
 		let json = JSON.stringify(sendData);
 
 		// 创建document
-		Model.listModel.create({
+		// Model.listModel.create({
+		// 	time_sort: 1233,
+	  //    article_pic: "http://via.placeholder.com/105x105",
+	  //    article_title: "这是一个新的",
+	 //    article_price: "119元包邮（169，用券）",
+	 //    article_mall: "天猫精选天猫精选",
+	 //    article_format_date: "2016-12-09"
+		// }, (err, data) => {
+		// 	if (err) console.log('报错了');
+		// });
+		// update
+		const option = { // option选项及其默认值
+		    safe: true, // 安全模式
+		    upsert: false, //如果不存在则创建新纪录
+		    multi: false,  // 是否更新多个查询记录
+		    runValidators: null, // 如果值为true，执行Validation验证。
+		    setDefaultsOnInsert: null, // 如果upsert选项为true，在新建时插入文档定义的默认值。
+		    strict: null, // 用严格模式跟新
+		    overwrite: false // 禁用update-only模式，允许覆盖记录。
+		}
+		Model.listModel.update({
+			time_sort: 12
+		}, {
 			time_sort: 1233,
 	    article_pic: "http://via.placeholder.com/105x105",
-	    article_title: "这是一个新的",
+	    article_title: "测试update",
 	    article_price: "119元包邮（169，用券）",
 	    article_mall: "天猫精选天猫精选",
 	    article_format_date: "2016-12-09"
-		}, (err, data) => {
-			if (err) console.log('报错了');
+		}, option, (err, res)=> {
+
 		});
 
 		res.send(callback + '(' + json + ')');
@@ -257,7 +279,9 @@ exports.feed = (req, res) => {
 	// } else {
 	// 	sendData.msg = "error";
 	// }
-	Model.listModel.find((err, data) => {
+	Model.listModel.find({ time_sort: {
+		$gt: 11
+	}}, (err, data) => {
 		console.log('sendData', data);
 		sendData.status = 1;
 		sendData.msg = 'success';

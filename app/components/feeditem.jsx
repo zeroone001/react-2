@@ -12,7 +12,7 @@ var FeedList = React.createClass({
 	render: function (argument) {
 		var _data = this.props.data;
 		return (
-			<li className="card-group-list" data-timesort={this.state.datas} >
+			<li className="card-group-list" data-timesort={_data.time_sort} >
 			    <a href="#" target="_blank">
 			        <div className="zm-card">
 			            <div className="zm-card-media">
