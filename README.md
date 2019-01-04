@@ -1,4 +1,24 @@
 # mongoose
+## 链接数据库
+安装 mongoose: npm install --save mongoose 
+ // 默认安装最新5.2.4版本 该版本不支持mongodb 2.4.10及其以下版本
+ // mongoose v 4.13.14及其以下版本支持
+ // 数据库连接不成功时注意检查对应版本
+ 引入 mongoose
+ const mongoose = require('mongoose')
+  // 链接地址: mongodb:username:password@host:prot/database
+ const url = 'mongodb://localhost:27017/data' 
+ // {useNewUrlParser: true} 使用新url解释器 此处不加会报错，暂时未找到原因
+ mongoose.connect(url, {useNewUrlParser: true}, function (err) {
+     if(err) {
+         console.log('链接失败')
+     } else {
+         console.log('链接成功')
+     }
+ })
+ mongoose.disconnect(function(){ // 断开数据库连接
+     console.log('断开链接')
+ })
 ## Model
 作为Schema实例生成Model 具有抽象行为能力，可以对数据库进行增删改查。
 · 1 创建model
