@@ -144,7 +144,7 @@ exports.swiper = async (req, res, next) => {
 		// 	if (err) console.log('报错了');
 		// });
 		// update
-		const option = { // option选项及其默认值
+		/*const option = { // option选项及其默认值
 		    safe: true, // 安全模式
 		    upsert: false, //如果不存在则创建新纪录
 		    multi: false,  // 是否更新多个查询记录
@@ -164,7 +164,7 @@ exports.swiper = async (req, res, next) => {
 	    article_format_date: "2016-12-09"
 		}, option, (err, res)=> {
 
-		});
+		});*/
 
 		res.send(callback + '(' + json + ')');
 	} catch (err) {
