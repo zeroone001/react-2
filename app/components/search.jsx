@@ -1,4 +1,3 @@
-
 require('./search.css');
 import React from 'react';
 
@@ -8,7 +7,6 @@ let Search = React.createClass({
 			bg: "transparent",
 		}
 	},
-
 	componentDidMount: function() {
 
 		window.onscroll = (event) => {

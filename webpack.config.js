@@ -34,7 +34,7 @@ module.exports = {
 	      }
 	    }),
 		new CopyWebpackPlugin([
-			{from: './index.html'}
+			{from: './src/index.html'}
 		])
 	]
 };

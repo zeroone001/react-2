@@ -4,7 +4,6 @@ let Swiper = require('../lib/swiper.min.js');
 let jsonp = require('../util/jsonp.js');
 
 import React from 'react';
-
 let Header = React.createClass({
 	getInitialState: function() {
         return {
@@ -12,6 +11,7 @@ let Header = React.createClass({
         };
  	},
 	componentDidMount: function() {
+		console.log('this', this);
 		jsonp(this.props.source, "", "callback", (data) => {
 			if(data.status) {
 				//如果组件渲染到了 DOM 中，isMounted() 返回 true。
@@ -57,4 +57,3 @@ let Header = React.createClass({
 })
 
 module.exports = Header;
-
